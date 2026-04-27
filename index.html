@@ -236,8 +236,8 @@
     .hero-stats { display: flex; gap: 32px; margin-top: 56px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.12); }
     .stat-item .stat-num { font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 800; color: var(--green); }
     .stat-item .stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.6); margin-top: 2px; }
-    .hero-visual { position: relative; }
-    .hero-card-wrap { position: relative; margin-left: 24px; }
+    .hero-visual { position: relative; display: flex; flex-direction: column; gap: 0; }
+    .hero-card-wrap { position: relative; margin: 0 16px; }
     .hero-main-card {
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.15);
@@ -263,15 +263,15 @@
     }
     .hero-service-item i { color: var(--green); width: 16px; }
     .float-card {
-      position: absolute;
       background: var(--white);
       border-radius: var(--radius);
       padding: 14px 18px;
       box-shadow: var(--shadow-lg);
-      display: flex; align-items: center; gap: 12px;
+      display: inline-flex; align-items: center; gap: 12px;
+      width: fit-content;
     }
-    .float-card-1 { top: -18px; right: 24px; }
-    .float-card-2 { bottom: -18px; left: 24px; }
+    .float-card-1 { align-self: flex-end; margin-right: 8px; margin-bottom: -18px; position: relative; z-index: 2; }
+    .float-card-2 { align-self: flex-start; margin-left: 8px; margin-top: -18px; position: relative; z-index: 2; }
     .float-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
     .float-icon.green { background: rgba(60,181,68,0.12); color: var(--green); }
     .float-icon.navy { background: rgba(13,33,55,0.08); color: var(--navy); }
@@ -891,6 +891,13 @@
         </div>
       </div>
       <div class="hero-visual fade-in stagger-2">
+        <div class="float-card float-card-1">
+          <div class="float-icon green"><i class="fas fa-award"></i></div>
+          <div class="float-text">
+            <div class="val">2 Years</div>
+            <div class="lbl">Product Warranty</div>
+          </div>
+        </div>
         <div class="hero-card-wrap">
           <div class="hero-main-card">
             <div class="hero-card-icon"><i class="fas fa-microscope"></i></div>
@@ -904,19 +911,12 @@
               <div class="hero-service-item"><i class="fas fa-check-circle"></i> All Types of Analyzers</div>
             </div>
           </div>
-          <div class="float-card float-card-1">
-            <div class="float-icon green"><i class="fas fa-award"></i></div>
-            <div class="float-text">
-              <div class="val">2 Years</div>
-              <div class="lbl">Product Warranty</div>
-            </div>
-          </div>
-          <div class="float-card float-card-2">
-            <div class="float-icon navy"><i class="fas fa-handshake"></i></div>
-            <div class="float-text">
-              <div class="val">Pan-India</div>
-              <div class="lbl">Service Network</div>
-            </div>
+        </div>
+        <div class="float-card float-card-2">
+          <div class="float-icon navy"><i class="fas fa-handshake"></i></div>
+          <div class="float-text">
+            <div class="val">Pan-India</div>
+            <div class="lbl">Service Network</div>
           </div>
         </div>
       </div>
