@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IRA Scientific Solution</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* =========================================
+       CSS RESET & BASE
+    ========================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: 'Inter', sans-serif; color: #1a1a2e; background: #fff; overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* =========================================
+       DESIGN TOKENS
+    ========================================= */
+    :root {
+      --green: #3cb544;
+      --green-light: #5dd45e;
+      --green-dark: #2a8c30;
+      --navy: #0d2137;
+      --navy-mid: #163352;
+      --navy-light: #1e4a73;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow: 0 4px 24px rgba(13,33,55,0.10);
+      --shadow-lg: 0 8px 48px rgba(13,33,55,0.18);
+      --transition: all 0.3s ease;
+    }
+
+    /* =========================================
+       UTILITY
+    ========================================= */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 96px 0; }
+    .section-sm { padding: 64px 0; }
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+    .section-title span { color: var(--green); }
+    .section-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--green);
+      background: rgba(60,181,68,0.10);
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      max-width: 600px;
+      line-height: 1.75;
+      margin-top: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--green);
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(60,181,68,0.35);
+    }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 6px 28px rgba(60,181,68,0.45); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
+    .tag {
+      display: inline-block;
+      background: rgba(60,181,68,0.12);
+      color: var(--green-dark);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+
+    /* =========================================
+       TOP BAR
+    ========================================= */
+    .topbar {
+      background: var(--navy);
+      color: rgba(255,255,255,0.75);
+      font-size: 0.82rem;
+      padding: 8px 0;
+    }
+    .topbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .topbar a { color: rgba(255,255,255,0.75); transition: var(--transition); }
+    .topbar a:hover { color: var(--green); }
+    .topbar-left, .topbar-right { display: flex; align-items: center; gap: 20px; }
+    .topbar i { color: var(--green); margin-right: 5px; }
+    .iso-badge {
+      background: var(--green);
+      color: white;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+
+    /* =========================================
+       NAVIGATION
+    ========================================= */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      box-shadow: 0 2px 16px rgba(13,33,55,0.06);
+      transition: var(--transition);
+    }
+    .navbar.scrolled { box-shadow: 0 4px 24px rgba(13,33,55,0.14); }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 26px; height: 26px; }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-name { font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--navy); line-height: 1.1; }
+    .logo-sub { font-size: 0.68rem; font-weight: 500; color: var(--green); letter-spacing: 1.5px; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      font-size: 0.88rem; font-weight: 500; color: var(--gray-600);
+      padding: 8px 14px; border-radius: 8px; transition: var(--transition);
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--navy); background: var(--gray-100); }
+    .nav-links a.active { color: var(--green); font-weight: 600; }
+    .nav-cta { display: flex; align-items: center; gap: 12px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); border-radius: 2px; transition: var(--transition); }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--white);
+      border-top: 1px solid var(--gray-200);
+      padding: 16px 24px 24px;
+      gap: 4px;
+    }
+    .mobile-menu a { padding: 10px 12px; border-radius: 8px; font-weight: 500; color: var(--gray-600); }
+    .mobile-menu a:hover { background: var(--gray-100); color: var(--navy); }
+
+    /* =========================================
+       HERO
+    ========================================= */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, #0a3d1f 100%);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(60,181,68,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(60,181,68,0.08) 0%, transparent 50%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.5;
+    }
+    .hero .container { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding-top: 48px; padding-bottom: 48px; }
+    .hero-content { color: var(--white); }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(60,181,68,0.18); border: 1px solid rgba(60,181,68,0.4);
+      color: #7de87e; font-size: 0.8rem; font-weight: 600;
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
+    }
+    .hero-badge span { display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.4); } }
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; line-height: 1.12;
+      margin-bottom: 24px;
+    }
+    .hero h1 em { font-style: normal; color: var(--green); }
+    .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.8; max-width: 520px; margin-bottom: 36px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 32px; margin-top: 56px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.12); }
+    .stat-item .stat-num { font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 800; color: var(--green); }
+    .stat-item .stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.6); margin-top: 2px; }
+    .hero-visual { position: relative; }
+    .hero-card-wrap { position: relative; margin-left: 24px; }
+    .hero-main-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      color: white;
+    }
+    .hero-card-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: white; margin-bottom: 20px;
+    }
+    .hero-main-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .hero-main-card p { font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.65; margin-bottom: 24px; }
+    .hero-services-list { display: flex; flex-direction: column; gap: 10px; }
+    .hero-service-item {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 14px;
+      font-size: 0.85rem;
+    }
+    .hero-service-item i { color: var(--green); width: 16px; }
+    .float-card {
+      position: absolute;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .float-card-1 { top: 20px; right: -20px; }
+    .float-card-2 { bottom: 20px; left: -20px; }
+    .float-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .float-icon.green { background: rgba(60,181,68,0.12); color: var(--green); }
+    .float-icon.navy { background: rgba(13,33,55,0.08); color: var(--navy); }
+    .float-text .val { font-weight: 700; font-size: 1rem; color: var(--navy); }
+    .float-text .lbl { font-size: 0.72rem; color: var(--gray-600); }
+
+    /* =========================================
+       ABOUT
+    ========================================= */
+    .about { background: var(--gray-50); }
+    .about .container { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-visual { position: relative; }
+    .about-img-wrap {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      position: relative; overflow: hidden;
+    }
+    .about-img-wrap::before {
+      content: '';
+      position: absolute; top: -30px; right: -30px;
+      width: 160px; height: 160px;
+      background: rgba(60,181,68,0.2); border-radius: 50%;
+    }
+    .about-img-inner {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 32px;
+      position: relative; z-index: 1;
+    }
+    .about-icon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .about-icon-item {
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 20px;
+      text-align: center; color: white;
+    }
+    .about-icon-item i { font-size: 2rem; color: var(--green); margin-bottom: 8px; }
+    .about-icon-item p { font-size: 0.78rem; color: rgba(255,255,255,0.7); margin-top: 4px; }
+    .about-icon-item strong { font-size: 0.88rem; }
+    .about-exp-badge {
+      position: absolute; bottom: -20px; right: -16px;
+      background: var(--green); color: white;
+      border-radius: 14px; padding: 16px 24px;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 8px 32px rgba(60,181,68,0.4);
+    }
+    .about-exp-badge .num { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+    .about-exp-badge .lbl { font-size: 0.75rem; font-weight: 600; opacity: 0.9; }
+    .about-text {}
+    .about-list { margin-top: 28px; display: flex; flex-direction: column; gap: 16px; }
+    .about-list-item { display: flex; gap: 14px; align-items: flex-start; }
+    .check-icon { width: 24px; height: 24px; background: rgba(60,181,68,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .check-icon i { font-size: 0.65rem; color: var(--green); }
+    .about-list-item h4 { font-weight: 600; font-size: 0.95rem; color: var(--navy); margin-bottom: 4px; }
+    .about-list-item p { font-size: 0.875rem; color: var(--gray-600); line-height: 1.6; }
+
+    /* =========================================
+       VALUES
+    ========================================= */
+    .values { background: var(--navy); position: relative; overflow: hidden; }
+    .values::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 80% 20%, rgba(60,181,68,0.15) 0%, transparent 60%);
+    }
+    .values .container { position: relative; z-index: 1; }
+    .values-head { text-align: center; margin-bottom: 60px; }
+    .values-head .section-title { color: var(--white); }
+    .values-head .section-label { background: rgba(60,181,68,0.2); color: #7de87e; }
+    .values-head .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto; }
+    .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .value-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      text-align: center;
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .value-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--green);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .value-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-6px); border-color: rgba(60,181,68,0.3); }
+    .value-card:hover::before { transform: scaleX(1); }
+    .value-icon {
+      width: 68px; height: 68px;
+      background: rgba(60,181,68,0.15);
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; color: var(--green);
+      margin: 0 auto 20px;
+      transition: var(--transition);
+    }
+    .value-card:hover .value-icon { background: rgba(60,181,68,0.25); }
+    .value-card h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .value-card p { font-size: 0.875rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+    /* =========================================
+       VISION
+    ========================================= */
+    .vision { background: var(--white); }
+    .vision .container { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .vision-image-wrap { position: relative; }
+    .vision-img-bg {
+      background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+      border-radius: var(--radius-lg);
+      overflow: hidden; aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vision-img-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .vision-img-placeholder {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; color: var(--navy-light);
+    }
+    .vision-img-placeholder i { font-size: 4rem; color: var(--green); opacity: 0.5; }
+    .vision-img-placeholder p { font-size: 0.875rem; color: var(--gray-600); }
+    .vision-accent {
+      position: absolute; top: -16px; right: -16px;
+      width: 80px; height: 80px;
+      background: var(--green); border-radius: 50%;
+      opacity: 0.15;
+    }
+    .vision-accent-2 {
+      position: absolute; bottom: -24px; left: -24px;
+      width: 120px; height: 120px;
+      background: var(--navy); border-radius: 50%;
+      opacity: 0.06;
+    }
+    .vision-points { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; }
+    .vision-point { display: flex; gap: 16px; align-items: flex-start; }
+    .vision-point-num {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem; font-weight: 800; color: var(--green);
+      opacity: 0.4; line-height: 1; flex-shrink: 0; width: 32px;
+    }
+    .vision-point h4 { font-weight: 600; font-size: 0.95rem; color: var(--navy); margin-bottom: 4px; }
+    .vision-point p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; }
+
+    /* =========================================
+       INDUSTRIES
+    ========================================= */
+    .industries { background: var(--gray-50); }
+    .industries-head { text-align: center; margin-bottom: 60px; }
+    .industries-head .section-sub { margin: 0 auto; }
+    .industries-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+    .industry-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 20px;
+      text-align: center;
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+      cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .industry-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .industry-card:hover { border-color: var(--navy); transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .industry-card:hover::before { opacity: 1; }
+    .industry-icon-wrap {
+      width: 72px; height: 72px;
+      background: var(--gray-100);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto 18px;
+      transition: var(--transition);
+      position: relative; z-index: 1;
+    }
+    .industry-card:hover .industry-icon-wrap { background: rgba(60,181,68,0.2); }
+    .industry-card h3 {
+      font-weight: 700; font-size: 0.9rem; color: var(--navy);
+      line-height: 1.4; position: relative; z-index: 1;
+      transition: var(--transition);
+    }
+    .industry-card:hover h3 { color: var(--white); }
+
+    /* =========================================
+       SERVICES
+    ========================================= */
+    .services { background: var(--white); }
+    .services-head { margin-bottom: 60px; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .service-card {
+      background: var(--gray-50);
+      border-radius: var(--radius-lg);
+      padding: 36px 30px;
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .service-card:hover { background: var(--white); border-color: var(--green); box-shadow: 0 8px 40px rgba(60,181,68,0.12); transform: translateY(-4px); }
+    .service-card-icon {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 22px;
+      transition: var(--transition);
+    }
+    .icon-green { background: rgba(60,181,68,0.12); color: var(--green); }
+    .icon-navy { background: rgba(13,33,55,0.08); color: var(--navy); }
+    .service-card:hover .service-card-icon { transform: scale(1.1); }
+    .service-card h3 { font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+    .service-card p { font-size: 0.875rem; color: var(--gray-600); line-height: 1.7; margin-bottom: 16px; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .service-wide { grid-column: span 3; background: linear-gradient(135deg, var(--navy), var(--navy-light)); border-color: transparent; }
+    .service-wide:hover { background: linear-gradient(135deg, var(--navy), var(--navy-light)) !important; transform: translateY(-4px); border-color: var(--green); box-shadow: 0 8px 40px rgba(13,33,55,0.35); }
+    .service-wide h3, .service-wide p { color: var(--white); }
+    .service-wide .tag { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
+    .service-wide .service-card-icon { background: rgba(60,181,68,0.2); color: var(--green); }
+
+    /* =========================================
+       BRANDS
+    ========================================= */
+    .brands { background: var(--gray-50); }
+    .brands-head { text-align: center; margin-bottom: 60px; }
+    .brands-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .brand-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px 20px 22px;
+      border: 1px solid var(--gray-200);
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      transition: var(--transition);
+      text-align: center;
+      text-decoration: none;
+    }
+    .brand-card:hover { border-color: var(--green); box-shadow: 0 6px 28px rgba(60,181,68,0.14); transform: translateY(-5px); }
+    .brand-logo-wrap {
+      height: 60px; width: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .brand-logo-wrap img {
+      max-height: 56px; max-width: 140px;
+      object-fit: contain; filter: grayscale(30%);
+      transition: var(--transition);
+    }
+    .brand-card:hover .brand-logo-wrap img { filter: grayscale(0%); }
+    .brand-text-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      color: var(--navy); line-height: 1.2;
+    }
+    .brand-name-label {
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--gray-600); line-height: 1.3;
+      padding-top: 4px; border-top: 1px solid var(--gray-200); width: 100%;
+    }
+    /* Allianz wide card */
+    .allianz-card {
+      grid-column: span 2;
+      background: var(--white);
+      border-color: var(--gray-200);
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      padding: 28px 20px 22px;
+    }
+    .allianz-card:hover { border-color: var(--green); }
+    .allianz-inner { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .allianz-inner .brand-text-logo { color: var(--navy); font-size: 0.95rem; }
+    .allianz-inner .brand-name-label { color: var(--gray-600); border-top-color: var(--gray-200); width: 100%; }
+    .allianz-sub { font-size: 0.72rem; color: var(--gray-600); margin-top: 6px; line-height: 1.6; text-align: center; }
+    .allianz-icon { width: 100%; height: 60px; display: flex; align-items: center; justify-content: center; margin-bottom: 0; margin-right: 0; background: none; border-radius: 0; font-size: 1.6rem; }
+
+    /* =========================================
+       PRODUCTS
+    ========================================= */
+    .products { background: var(--white); }
+    .products-head { margin-bottom: 60px; }
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .product-card {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 26px 24px;
+      border: 1px solid var(--gray-200);
+      display: flex; align-items: center; gap: 16px;
+      transition: var(--transition);
+    }
+    .product-card:hover { border-color: var(--green); background: rgba(60,181,68,0.04); transform: translateX(4px); }
+    .product-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .product-card h4 { font-weight: 700; font-size: 0.95rem; color: var(--navy); }
+    .product-card p { font-size: 0.8rem; color: var(--gray-600); margin-top: 3px; }
+    .warranty-banner {
+      margin-top: 48px;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      border-radius: var(--radius-lg);
+      padding: 36px 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      color: white;
+    }
+    .warranty-banner h3 { font-family: 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 800; }
+    .warranty-banner p { opacity: 0.85; margin-top: 6px; }
+    .warranty-badge {
+      background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4);
+      border-radius: var(--radius); padding: 20px 32px; text-align: center; flex-shrink: 0;
+    }
+    .warranty-badge .yrs { font-family: 'Poppins', sans-serif; font-size: 3rem; font-weight: 800; line-height: 1; }
+    .warranty-badge .lbl { font-size: 0.8rem; font-weight: 600; opacity: 0.9; }
+
+    /* =========================================
+       CLEAN ROOM
+    ========================================= */
+    .cleanroom { background: var(--navy); position: relative; overflow: hidden; }
+    .cleanroom::after {
+      content: '';
+      position: absolute; bottom: 0; right: 0;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(60,181,68,0.15) 0%, transparent 70%);
+    }
+    .cleanroom .container { position: relative; z-index: 1; }
+    .cleanroom-head { text-align: center; margin-bottom: 60px; }
+    .cleanroom-head .section-title { color: var(--white); }
+    .cleanroom-head .section-label { background: rgba(60,181,68,0.2); color: #7de87e; }
+    .cleanroom-head .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto; }
+    .cleanroom-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+    .cleanroom-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: var(--transition);
+    }
+    .cleanroom-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(60,181,68,0.4); }
+    .cleanroom-card h3 { font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--green); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .cleanroom-card h3 i { font-size: 1.2rem; }
+    .cleanroom-list { display: flex; flex-direction: column; gap: 10px; }
+    .cleanroom-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.8); font-size: 0.875rem; }
+    .cleanroom-item::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+    .hvac-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .hvac-item {
+      background: rgba(255,255,255,0.05); border-radius: 8px;
+      padding: 10px 14px; font-size: 0.8rem; color: rgba(255,255,255,0.7);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hvac-item::before { content: ''; width: 5px; height: 5px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+    .biotech-banner {
+      margin-top: 36px;
+      background: rgba(60,181,68,0.12);
+      border: 1px solid rgba(60,181,68,0.3);
+      border-radius: var(--radius-lg);
+      padding: 28px 36px;
+      display: flex; align-items: center; gap: 20px; color: white;
+    }
+    .biotech-banner i { font-size: 2.5rem; color: var(--green); flex-shrink: 0; }
+    .biotech-banner h4 { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+    .biotech-banner p { font-size: 0.875rem; color: rgba(255,255,255,0.65); line-height: 1.6; }
+
+    /* =========================================
+       CONTACT
+    ========================================= */
+    .contact { background: var(--gray-50); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: start; }
+    .contact-info h2 { font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+    .contact-info p { color: var(--gray-600); line-height: 1.8; margin-bottom: 36px; }
+    .contact-items { display: flex; flex-direction: column; gap: 24px; }
+    .contact-item { display: flex; gap: 18px; align-items: flex-start; }
+    .contact-icon-wrap {
+      width: 52px; height: 52px;
+      background: var(--navy); border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--green); flex-shrink: 0;
+    }
+    .contact-item h4 { font-weight: 600; font-size: 0.88rem; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .contact-item p, .contact-item a { font-weight: 600; color: var(--navy); font-size: 0.95rem; }
+    .contact-item a:hover { color: var(--green); }
+    .contact-form-wrap {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-200);
+    }
+    .contact-form-wrap h3 { font-family: 'Poppins', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 28px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input, .form-group select, .form-group textarea {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--navy);
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+      resize: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--green); background: var(--white);
+      box-shadow: 0 0 0 3px rgba(60,181,68,0.12);
+    }
+    .form-group textarea { min-height: 100px; }
+    .form-submit { width: 100%; justify-content: center; font-size: 1rem; padding: 15px; }
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.7);
+    }
+    .footer-main {
+      padding: 64px 0 40px;
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+    .footer-brand .logo-name { color: var(--white); font-size: 1.15rem; }
+    .footer-brand p { font-size: 0.875rem; line-height: 1.8; margin-top: 16px; margin-bottom: 24px; }
+    .footer-social { display: flex; gap: 10px; }
+    .social-btn {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7); font-size: 0.85rem;
+      transition: var(--transition);
+    }
+    .social-btn:hover { background: var(--green); color: white; }
+    .footer-col h4 { font-weight: 700; font-size: 0.88rem; color: var(--white); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+    .footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { font-size: 0.875rem; transition: var(--transition); }
+    .footer-col ul li a:hover { color: var(--green); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 20px 0;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.82rem; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom span { color: var(--green); }
+
+    /* =========================================
+       SCROLL TO TOP
+    ========================================= */
+    #scrollTop {
+      position: fixed; bottom: 28px; right: 28px; z-index: 998;
+      width: 48px; height: 48px;
+      background: var(--green);
+      color: white; border: none; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(60,181,68,0.4);
+      opacity: 0; transform: translateY(12px);
+      transition: var(--transition);
+    }
+    #scrollTop.show { opacity: 1; transform: translateY(0); }
+    #scrollTop:hover { background: var(--green-dark); }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+    @media (max-width: 1024px) {
+      .hero .container { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { display: none; }
+      .about .container { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+      .vision .container { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .industries-grid { grid-template-columns: repeat(3, 1fr); }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .service-wide { grid-column: span 2; }
+      .brands-grid { grid-template-columns: repeat(3, 1fr); }
+      .allianz-card { grid-column: span 3; }
+      .cleanroom-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-main { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 64px 0; }
+      .topbar { display: none; }
+      .nav-links, .nav-cta .btn { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu.open { display: flex; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .industries-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-wide { grid-column: span 1; }
+      .brands-grid { grid-template-columns: 1fr 1fr; }
+      .allianz-card { grid-column: span 2; }
+
+      .products-grid { grid-template-columns: 1fr 1fr; }
+      .cleanroom-grid { grid-template-columns: 1fr; }
+      .warranty-banner { flex-direction: column; text-align: center; }
+      .footer-main { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .values-grid { grid-template-columns: 1fr; }
+      .industries-grid { grid-template-columns: 1fr 1fr; }
+      .brands-grid { grid-template-columns: 1fr; }
+      .allianz-card { grid-column: span 1; }
+      .products-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-left">
+        <span class="iso-badge">Premier Lab Solutions</span>
+        <a href="tel:+918421939330"><i class="fas fa-phone-alt"></i>+91-8421939330</a>
+        <a href="mailto:irascientific@gmail.com"><i class="fas fa-envelope"></i>irascientific@gmail.com</a>
+      </div>
+      <div class="topbar-right">
+        <span><i class="fas fa-map-marker-alt"></i>Chh.Sambhajinagar - 431001</span>
+        <span><i class="fas fa-shield-alt"></i>2 Year Warranty on All Products</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#home" class="nav-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="10" stroke="#3cb544" stroke-width="2"/>
+            <circle cx="16" cy="16" r="4" fill="#3cb544"/>
+            <line x1="6" y1="16" x2="26" y2="16" stroke="#3cb544" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <line x1="16" y1="6" x2="16" y2="26" stroke="#3cb544" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <circle cx="6" cy="16" r="2" fill="#fff"/>
+            <circle cx="26" cy="16" r="2" fill="#fff"/>
+            <circle cx="16" cy="6" r="2" fill="#fff"/>
+            <circle cx="16" cy="26" r="2" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">IRA Scientific</span>
+          <span class="logo-sub">Solution</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#industries">Industries</a>
+        <a href="#brands">Brands</a>
+        <a href="#products">Products</a>
+        <a href="#cleanroom">Clean Room</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#contact" class="btn btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">
+          <i class="fas fa-paper-plane"></i> Get a Quote
+        </a>
+        <div class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#industries">Industries</a>
+      <a href="#brands">Brands</a>
+      <a href="#products">Products</a>
+      <a href="#cleanroom">Clean Room</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="container">
+      <div class="hero-content fade-in">
+        <div class="hero-badge">
+          <span></span>
+          Premier Laboratory Solutions Provider
+        </div>
+        <h1>Advancing Science<br/>Through <em>Quality</em><br/>Lab Solutions</h1>
+        <p>IRA Scientific Solutions delivers cutting-edge laboratory instruments, bulk chemicals, and comprehensive lab setup solutions — empowering industries and researchers across India.</p>
+        <div class="hero-actions">
+          <a href="#services" class="btn btn-primary">
+            <i class="fas fa-flask"></i> Explore Services
+          </a>
+          <a href="#contact" class="btn btn-outline">
+            <i class="fas fa-phone"></i> Contact Us
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-num">10+</div>
+            <div class="stat-label">Partner Brands</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">5+</div>
+            <div class="stat-label">Industries Served</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">2yr</div>
+            <div class="stat-label">Product Warranty</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Quality Assured</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual fade-in stagger-2">
+        <div class="hero-card-wrap">
+          <div class="hero-main-card">
+            <div class="hero-card-icon"><i class="fas fa-microscope"></i></div>
+            <h3>Complete Lab Ecosystem</h3>
+            <p>From instruments to chemicals, furniture to clean rooms — we deliver end-to-end laboratory solutions for every need.</p>
+            <div class="hero-services-list">
+              <div class="hero-service-item"><i class="fas fa-check-circle"></i> Lab Instruments Supply &amp; Service</div>
+              <div class="hero-service-item"><i class="fas fa-check-circle"></i> Bulk Chemicals (Acid, Base, Intermediate)</div>
+              <div class="hero-service-item"><i class="fas fa-check-circle"></i> Laboratory Setup &amp; Furniture</div>
+              <div class="hero-service-item"><i class="fas fa-check-circle"></i> Clean Room &amp; HVAC Validation</div>
+              <div class="hero-service-item"><i class="fas fa-check-circle"></i> All Types of Analyzers</div>
+            </div>
+          </div>
+          <div class="float-card float-card-1">
+            <div class="float-icon green"><i class="fas fa-award"></i></div>
+            <div class="float-text">
+              <div class="val">2 Years</div>
+              <div class="lbl">Product Warranty</div>
+            </div>
+          </div>
+          <div class="float-card float-card-2">
+            <div class="float-icon navy"><i class="fas fa-handshake"></i></div>
+            <div class="float-text">
+              <div class="val">Pan-India</div>
+              <div class="lbl">Service Network</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about section" id="about">
+    <div class="container">
+      <div class="about-visual fade-in">
+        <div class="about-img-wrap">
+          <div class="about-img-inner">
+            <div class="about-icon-grid">
+              <div class="about-icon-item">
+                <i class="fas fa-vial"></i>
+                <strong>Lab Instruments</strong>
+                <p>World-class equipment</p>
+              </div>
+              <div class="about-icon-item">
+                <i class="fas fa-atom"></i>
+                <strong>Bulk Chemicals</strong>
+                <p>Sourced responsibly</p>
+              </div>
+              <div class="about-icon-item">
+                <i class="fas fa-building"></i>
+                <strong>Lab Setup</strong>
+                <p>Turnkey solutions</p>
+              </div>
+              <div class="about-icon-item">
+                <i class="fas fa-tools"></i>
+                <strong>After Sales</strong>
+                <p>Reliable support</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="about-exp-badge">
+          <div class="num">🔬</div>
+          <div class="lbl">Trusted Partner<br/>in Lab Science</div>
+        </div>
+      </div>
+      <div class="about-text fade-in stagger-2">
+        <span class="section-label">About Us</span>
+        <h2 class="section-title">Premier Provider of <span>Laboratory Solutions</span></h2>
+        <p class="section-sub">IRA Scientific Solutions is a premier provider of cutting-edge laboratory instruments, bulk chemicals, and comprehensive lab setup solutions tailored to the needs of various industries.</p>
+        <div class="about-list">
+          <div class="about-list-item">
+            <div class="check-icon"><i class="fas fa-check"></i></div>
+            <div>
+              <h4>High-Quality Equipment</h4>
+              <p>We deliver best-in-class laboratory instruments from globally recognized brands with full maintenance support.</p>
+            </div>
+          </div>
+          <div class="about-list-item">
+            <div class="check-icon"><i class="fas fa-check"></i></div>
+            <div>
+              <h4>Bulk Chemical Supply</h4>
+              <p>High-quality chemicals for industrial and research applications — acids, bases, intermediates and more, sourced responsibly.</p>
+            </div>
+          </div>
+          <div class="about-list-item">
+            <div class="check-icon"><i class="fas fa-check"></i></div>
+            <div>
+              <h4>Turnkey Lab Setup</h4>
+              <p>State-of-the-art laboratory setup including ergonomic furniture, clean rooms, and HVAC system validation.</p>
+            </div>
+          </div>
+          <div class="about-list-item">
+            <div class="check-icon"><i class="fas fa-check"></i></div>
+            <div>
+              <h4>2 Year Product Warranty</h4>
+              <p>All our customized products come with a comprehensive 2-year warranty for peace of mind.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values section" id="values">
+    <div class="container">
+      <div class="values-head fade-in">
+        <span class="section-label">What We Stand For</span>
+        <h2 class="section-title">Our Core <span>Values</span></h2>
+        <p class="section-sub">The principles that guide every aspect of our business — from sourcing to delivery and beyond.</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card fade-in stagger-1">
+          <div class="value-icon"><i class="fas fa-balance-scale"></i></div>
+          <h3>Integrity</h3>
+          <p>Ethical practices guide every aspect of our business, from sourcing to delivery. We believe in transparent and honest dealings with all stakeholders.</p>
+        </div>
+        <div class="value-card fade-in stagger-2">
+          <div class="value-icon"><i class="fas fa-medal"></i></div>
+          <h3>Excellence</h3>
+          <p>A commitment to exceeding customer expectations with quality and service. We never settle for good enough when great is achievable.</p>
+        </div>
+        <div class="value-card fade-in stagger-3">
+          <div class="value-icon"><i class="fas fa-handshake"></i></div>
+          <h3>Collaboration</h3>
+          <p>Our strength lies in fostering collaborations that drive growth and value for our clients and partners. Building lasting relationships with clients, partners, and stakeholders.</p>
+        </div>
+        <div class="value-card fade-in stagger-4">
+          <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+          <h3>Innovation</h3>
+          <p>Leveraging technology to deliver cutting-edge solutions. We continuously evolve to meet the changing demands of modern laboratories and industries.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION -->
+  <section class="vision section" id="vision">
+    <div class="container">
+      <div class="vision-image-wrap fade-in">
+        <div class="vision-img-bg">
+          <div class="vision-img-placeholder">
+            <i class="fas fa-microscope"></i>
+            <p>Global Leader in Laboratory Solutions</p>
+          </div>
+        </div>
+        <div class="vision-accent"></div>
+        <div class="vision-accent-2"></div>
+      </div>
+      <div class="fade-in stagger-2">
+        <span class="section-label">Our Vision</span>
+        <h2 class="section-title">Empowering Science &amp;<br/><span>Industrial Progress</span></h2>
+        <p class="section-sub">To be a global leader in laboratory solutions, recognized for our unwavering commitment to integrity, innovation, and excellence.</p>
+        <div class="vision-points">
+          <div class="vision-point">
+            <div class="vision-point-num">01</div>
+            <div>
+              <h4>Global Leadership</h4>
+              <p>To be recognized as a global leader in laboratory solutions with an unwavering commitment to excellence and integrity.</p>
+            </div>
+          </div>
+          <div class="vision-point">
+            <div class="vision-point-num">02</div>
+            <div>
+              <h4>Empowering Industries</h4>
+              <p>Empowering industries and researchers by delivering cutting-edge technologies tailored to their specific needs.</p>
+            </div>
+          </div>
+          <div class="vision-point">
+            <div class="vision-point-num">03</div>
+            <div>
+              <h4>Scientific Advancement</h4>
+              <p>Fostering collaborations that drive scientific and industrial advancements, creating value for all stakeholders.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDUSTRIES -->
+  <section class="industries section" id="industries">
+    <div class="container">
+      <div class="industries-head fade-in">
+        <span class="section-label">Sectors We Serve</span>
+        <h2 class="section-title">Industries We <span>Serve</span></h2>
+        <p class="section-sub">Delivering specialized laboratory solutions across diverse sectors with deep domain expertise.</p>
+      </div>
+      <div class="industries-grid">
+        <div class="industry-card fade-in stagger-1">
+          <div class="industry-icon-wrap">💊</div>
+          <h3>Pharma &amp; Biopharma</h3>
+        </div>
+        <div class="industry-card fade-in stagger-2">
+          <div class="industry-icon-wrap">🌾</div>
+          <h3>Agriculture (Seeds &amp; Tissue Culture)</h3>
+        </div>
+        <div class="industry-card fade-in stagger-3">
+          <div class="industry-icon-wrap">🍽️</div>
+          <h3>Food &amp; Breweries</h3>
+        </div>
+        <div class="industry-card fade-in stagger-4">
+          <div class="industry-icon-wrap">⚙️</div>
+          <h3>Automobiles</h3>
+        </div>
+        <div class="industry-card fade-in stagger-5">
+          <div class="industry-icon-wrap">🏭</div>
+          <h3>Oil, Gas &amp; Steels</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services section" id="services">
+    <div class="container">
+      <div class="services-head fade-in">
+        <span class="section-label">What We Offer</span>
+        <h2 class="section-title">Our <span>Services</span></h2>
+        <p class="section-sub">End-to-end laboratory solutions designed to meet the highest standards of quality and precision.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card fade-in stagger-1">
+          <div class="service-card-icon icon-green"><i class="fas fa-microscope"></i></div>
+          <h3>Lab Instruments Supply &amp; Service</h3>
+          <p>Laboratory instruments with reliable maintenance support. We source, supply, and service a comprehensive range of equipment from top global brands.</p>
+          <div class="service-tags">
+            <span class="tag">PCR Machines</span>
+            <span class="tag">Spectrophotometers</span>
+            <span class="tag">Filtration Units</span>
+          </div>
+        </div>
+        <div class="service-card fade-in stagger-2">
+          <div class="service-card-icon icon-navy"><i class="fas fa-flask"></i></div>
+          <h3>Bulk Chemicals</h3>
+          <p>High-quality chemicals for industrial and research applications, sourced responsibly. Including acids, bases, intermediates, and specialty reagents.</p>
+          <div class="service-tags">
+            <span class="tag">Acids</span>
+            <span class="tag">Bases</span>
+            <span class="tag">Intermediates</span>
+          </div>
+        </div>
+        <div class="service-card fade-in stagger-3">
+          <div class="service-card-icon icon-green"><i class="fas fa-building"></i></div>
+          <h3>Laboratory Setup &amp; Furniture</h3>
+          <p>Turnkey solutions for setting up state-of-the-art laboratories. Ergonomic, durable, and customizable furniture to enhance functionality and comfort.</p>
+          <div class="service-tags">
+            <span class="tag">Lab Furniture</span>
+            <span class="tag">Clean Rooms</span>
+            <span class="tag">Modular Setup</span>
+          </div>
+        </div>
+        <div class="service-card fade-in stagger-4">
+          <div class="service-card-icon icon-navy"><i class="fas fa-chart-line"></i></div>
+          <h3>All Types of Analyzers</h3>
+          <p>Comprehensive range of analytical instruments for environmental and process monitoring across multiple parameters.</p>
+          <div class="service-tags">
+            <span class="tag">Air Monitoring</span>
+            <span class="tag">Emission Monitoring</span>
+            <span class="tag">Process Gas</span>
+            <span class="tag">Water Monitoring</span>
+          </div>
+        </div>
+        <div class="service-card fade-in stagger-5">
+          <div class="service-card-icon icon-green"><i class="fas fa-snowflake"></i></div>
+          <h3>Refrigeration Products</h3>
+          <p>Complete range of refrigeration and temperature-control products for laboratory sample storage and processing.</p>
+          <div class="service-tags">
+            <span class="tag">Cold Rooms</span>
+            <span class="tag">Deep Freezers</span>
+            <span class="tag">Lab Refrigerators</span>
+          </div>
+        </div>
+        <div class="service-card fade-in stagger-5">
+          <div class="service-card-icon icon-navy"><i class="fas fa-water"></i></div>
+          <h3>Water Analysis Systems</h3>
+          <p>Advanced water quality monitoring and analysis equipment for laboratory, industrial, and environmental applications.</p>
+          <div class="service-tags">
+            <span class="tag">Water Testing</span>
+            <span class="tag">Quality Monitoring</span>
+            <span class="tag">ETP Solutions</span>
+          </div>
+        </div>
+        <div class="service-card service-wide fade-in">
+          <div class="service-card-icon"><i class="fas fa-star"></i></div>
+          <h3>We Deal in All Kinds of Lab Instruments</h3>
+          <p>Bomb Calorimeters, Spectrophotometers, PCR Machines, Filtration Units, Refrigeration Products, Water Analysis Systems and much more. If it's a lab instrument, we can source it for you.</p>
+          <div class="service-tags" style="margin-top: 4px;">
+            <span class="tag">Bomb Calorimeter</span>
+            <span class="tag">PCR Machines</span>
+            <span class="tag">Spectrophotometers</span>
+            <span class="tag">Filtration Units</span>
+            <span class="tag">Water Analysis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <section class="brands section" id="brands">
+    <div class="container">
+      <div class="brands-head fade-in">
+        <span class="section-label">Our Partners</span>
+        <h2 class="section-title">Brands We <span>Offer</span></h2>
+        <p class="section-sub">We partner with globally recognized brands to bring you the highest quality laboratory solutions.</p>
+      </div>
+      <div class="brands-grid fade-in">
+
+        <!-- Horiba (no hyperlink) -->
+        <div class="brand-card" style="cursor:default;">
+          <div class="brand-logo-wrap">
+            <img id="horiba-logo" alt="Horiba" />
+          </div>
+          <div class="brand-name-label">Horiba India Pvt Ltd.</div>
+        </div>
+
+        <!-- REMI Lab World -->
+        <a class="brand-card" href="https://www.remilabworld.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img id="remi-logo" alt="REMI Lab World" />
+          </div>
+          <div class="brand-name-label">REMI Lab World</div>
+        </a>
+
+        <!-- SPT Labtech -->
+        <a class="brand-card" href="https://www.sptlabtech.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="https://www.sptlabtech.com/hubfs/raw_assets/public/SPT-Labtech-2021/SPT-Labtech-Theme-2021/images/logo.svg"
+                 alt="SPT Labtech" onerror="this.src='https://logo.clearbit.com/sptlabtech.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>SPT Labtech</div>'}" />
+          </div>
+          <div class="brand-name-label">SPT Labtech</div>
+        </a>
+
+        <!-- Aczet -->
+        <a class="brand-card" href="https://www.aczet.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="https://aczet.com/webtheme/images/logo.png" alt="Aczet Balances"
+                 onerror="this.src='https://logo.clearbit.com/aczet.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>ACZET</div>'}" />
+          </div>
+          <div class="brand-name-label">Aczet Balances</div>
+        </a>
+
+        <!-- Cole-Parmer -->
+        <a class="brand-card" href="https://www.coleparmer.in/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img id="cole-logo" alt="Cole-Parmer" />
+          </div>
+          <div class="brand-name-label">Cole-Parmer</div>
+        </a>
+
+        <!-- Toshniwal -->
+        <a class="brand-card" href="https://toshniwal.net/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="https://logo.clearbit.com/toshniwal.net" alt="Toshniwal Technologies"
+                 onerror="this.src='https://toshniwal.net/_next/static/media/logo-4.c9559e43.png'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Toshniwal</div>'}" />
+          </div>
+          <div class="brand-name-label">Toshniwal Technologies</div>
+        </a>
+
+        <!-- Supertek Glassware -->
+        <a class="brand-card" href="https://supertekglassware.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="https://supertekglassware.com/wp-content/uploads/2026/02/image-2.png"
+                 alt="Supertek Glassware" onerror="this.src='https://logo.clearbit.com/supertekglassware.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Supertek</div>'}" />
+          </div>
+          <div class="brand-name-label">Supertek Glassware</div>
+        </a>
+
+        <!-- Molecular Devices -->
+        <a class="brand-card" href="https://www.moleculardevices.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img id="moldev-logo" alt="Molecular Devices" />
+          </div>
+          <div class="brand-name-label">Molecular Devices, USA</div>
+        </a>
+
+        <!-- Provisco -->
+        <a class="brand-card" href="https://www.proviscotech.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="https://www.proviscotech.com/wp-content/uploads/2022/10/provisco-logo.png"
+                 alt="Provisco Tech" onerror="this.src='https://logo.clearbit.com/proviscotech.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Provisco</div>'}" />
+          </div>
+          <div class="brand-name-label">Provisco Tech Pvt Ltd.</div>
+        </a>
+
+        <!-- FOSS -->
+        <a class="brand-card" href="https://www.fossanalytics.com/en-in/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="https://www.fossanalytics.com/Design/static/foss-logo.png"
+                 alt="FOSS India" onerror="this.src='https://logo.clearbit.com/fossanalytics.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>FOSS</div>'}" />
+          </div>
+          <div class="brand-name-label">FOSS India</div>
+        </a>
+
+        <!-- Flotek Systems -->
+        <a class="brand-card" href="https://floteksystems.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="https://floteksystems.com/wp-content/uploads/2024/08/cropped-flotek-logo.png"
+                 alt="Flotek Systems" onerror="this.src='https://logo.clearbit.com/floteksystems.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Flotek</div>'}" />
+          </div>
+          <div class="brand-name-label">Flotek Systems</div>
+        </a>
+
+        <!-- Cleanflo Systems -->
+        <a class="brand-card" href="https://www.cleanflosystems.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="https://cleanflosystems.com/logo.jpeg"
+                 alt="Cleanflo Systems" onerror="this.src='https://logo.clearbit.com/cleanflosystems.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Cleanflo</div>'}" />
+          </div>
+          <div class="brand-name-label">Cleanflo Systems</div>
+        </a>
+
+        <!-- Allianz BioInnovation — wide card -->
+        <a class="brand-card allianz-card" href="https://alliaancebiotech.com/" target="_blank" rel="noopener">
+          <div class="brand-logo-wrap">
+            <img src="allianz-logo.jpg"
+                 alt="Allianz BioInnovation"
+                 onerror="this.src='https://alliaancebiotech.com/wp-content/themes/alliance-new/images/logo_new.jpg'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Allianz Bio</div>'}" />
+          </div>
+          <div class="brand-name-label">Allianz BioInnovation</div>
+        </a>
+
+        <!-- Team One Biotech — wide card (no hyperlink) -->
+        <div class="brand-card allianz-card" style="cursor:default;">
+          <div class="brand-logo-wrap">
+            <img src="teamone-logo.png" alt="Team One Biotech"
+                 onerror="this.src='https://5.imimg.com/data5/SELLER/Logo/2024/5/421191467/ZY/MY/HP/7991276/t1b-logo-120x120.png'; this.onerror=null;" />
+          </div>
+          <div class="brand-name-label">Team One Biotech</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products section" id="products">
+    <div class="container">
+      <div class="products-head fade-in">
+        <span class="section-label">Made In-House</span>
+        <h2 class="section-title">Our Customized <span>Products</span></h2>
+        <p class="section-sub">Precision-engineered laboratory equipment manufactured to exacting standards, all backed by our 2-year warranty.</p>
+      </div>
+      <div class="products-grid fade-in">
+        <div class="product-card">
+          <div class="product-icon">🌡️</div>
+          <div>
+            <h4>Hot Air Oven</h4>
+            <p>Precise temperature control for drying &amp; sterilization</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🧫</div>
+          <div>
+            <h4>Lab Incubator</h4>
+            <p>Controlled environment for biological cultures</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">💧</div>
+          <div>
+            <h4>Water Bath</h4>
+            <p>Precise temperature water baths for lab use</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">♨️</div>
+          <div>
+            <h4>Autoclave</h4>
+            <p>Steam sterilization for lab instruments &amp; media</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🔄</div>
+          <div>
+            <h4>Orbital Shaker</h4>
+            <p>Consistent orbital agitation for mixing applications</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🔥</div>
+          <div>
+            <h4>Hot Plate</h4>
+            <p>Reliable heating surface for laboratory experiments</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🌀</div>
+          <div>
+            <h4>Stirrer</h4>
+            <p>Magnetic &amp; mechanical stirrers for fluid mixing</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">⚗️</div>
+          <div>
+            <h4>Muffle Furnace</h4>
+            <p>High-temperature furnaces for ashing &amp; sintering</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">💥</div>
+          <div>
+            <h4>BOMB Calorimeter</h4>
+            <p>Accurate heat of combustion measurement</p>
+          </div>
+        </div>
+      </div>
+      <div class="warranty-banner fade-in">
+        <div>
+          <h3>All Products Come With a 2-Year Warranty</h3>
+          <p>Every customized product we manufacture is backed by comprehensive after-sales support and a full 2-year warranty — giving you complete peace of mind.</p>
+        </div>
+        <div class="warranty-badge">
+          <div class="yrs">2</div>
+          <div class="lbl">YEAR<br/>WARRANTY</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLEAN ROOM -->
+  <section class="cleanroom section" id="cleanroom">
+    <div class="container">
+      <div class="cleanroom-head fade-in">
+        <span class="section-label">Controlled Environments</span>
+        <h2 class="section-title">Clean Room &amp; <span>HVAC Solutions</span></h2>
+        <p class="section-sub">Complete controlled environment solutions — from furniture and equipment to full HVAC system validation services.</p>
+      </div>
+      <div class="cleanroom-grid fade-in">
+        <div class="cleanroom-card">
+          <h3><i class="fas fa-couch"></i> Lab Furniture &amp; Flooring</h3>
+          <div class="cleanroom-list">
+            <div class="cleanroom-item">Full Lab Furniture</div>
+            <div class="cleanroom-item">Clean Room Furniture</div>
+            <div class="cleanroom-item">Modular Clean Rooms</div>
+            <div class="cleanroom-item">PU Flooring</div>
+            <div class="cleanroom-item">Epoxy Flooring</div>
+            <div class="cleanroom-item">Vinyl Flooring</div>
+          </div>
+        </div>
+        <div class="cleanroom-card">
+          <h3><i class="fas fa-wind"></i> Clean Room Equipment</h3>
+          <div class="cleanroom-list">
+            <div class="cleanroom-item">Air Shower</div>
+            <div class="cleanroom-item">Bio Safety Cabinet (BSC)</div>
+            <div class="cleanroom-item">Static Pass Box (SPB)</div>
+            <div class="cleanroom-item">Dynamic Pass Box (DPB)</div>
+            <div class="cleanroom-item">Garment Storage Cabinet (GSC)</div>
+            <div class="cleanroom-item">Horizontal Laminar Air Flow (HLAF)</div>
+            <div class="cleanroom-item">Reverse Laminar Air Flow (RLAF)</div>
+          </div>
+        </div>
+        <div class="cleanroom-card">
+          <h3><i class="fas fa-cogs"></i> HVAC System Validation</h3>
+          <p style="color: rgba(255,255,255,0.65); font-size: 0.85rem; margin-bottom: 16px;">Comprehensive HVAC validation test parameters:</p>
+          <div class="hvac-grid">
+            <div class="hvac-item">Duct Leak Test</div>
+            <div class="hvac-item">Air Velocity Test</div>
+            <div class="hvac-item">Pressure Balance of Rooms</div>
+            <div class="hvac-item">HEPA Filter Integrity (PAO)</div>
+            <div class="hvac-item">Non-Viable Particle Count</div>
+            <div class="hvac-item">Area Recovery Test</div>
+            <div class="hvac-item">Air Flow Visualization</div>
+          </div>
+        </div>
+      </div>
+      <div class="biotech-banner fade-in">
+        <i class="fas fa-recycle"></i>
+        <div>
+          <h4>Team One Biotech — Bioremediation Solutions</h4>
+          <p>Our partner, Team One Biotech, specializes in advanced bioremediation solutions for Effluent Treatment Plants (ETPs). Combining biotechnology with environmental science to deliver sustainable, effective wastewater treatment systems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact section" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info fade-in">
+          <span class="section-label">Get In Touch</span>
+          <h2>Let's Connect &amp; Collaborate</h2>
+          <p>Ready to elevate your laboratory capabilities? Reach out to us today. Our team of experts is ready to understand your needs and deliver the best solutions.</p>
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="contact-icon-wrap"><i class="fas fa-phone-alt"></i></div>
+              <div>
+                <h4>Phone</h4>
+                <a href="tel:+918421939330">+91-8421939330</a><br/>
+                <a href="tel:+919146361239">+91-9146361239</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon-wrap"><i class="fas fa-envelope"></i></div>
+              <div>
+                <h4>Email</h4>
+                <a href="mailto:irascientific@gmail.com">irascientific@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
+              <div>
+                <h4>Address</h4>
+                <p>Flat No: 06, Balaji Tower, Parijat Nagar,<br/>Chh.Sambhajinagar - 431001</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form-wrap fade-in stagger-2">
+          <h3>Send Us a Message</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="Your first name" />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Your last name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+91 XXXXX XXXXX" />
+          </div>
+          <div class="form-group">
+            <label>Service Interested In</label>
+            <select>
+              <option value="">Select a service...</option>
+              <option>Lab Instruments Supply &amp; Service</option>
+              <option>Bulk Chemicals</option>
+              <option>Laboratory Setup &amp; Furniture</option>
+              <option>All Types of Analyzers</option>
+              <option>Customized Products</option>
+              <option>Clean Room Equipment</option>
+              <option>HVAC System Validation</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell us about your requirements..."></textarea>
+          </div>
+          <button class="btn btn-primary form-submit" onclick="handleFormSubmit(event)">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="#home" class="nav-logo" style="margin-bottom: 16px; display: inline-flex;">
+            <div class="logo-icon" style="width:38px;height:38px;">
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;">
+                <circle cx="16" cy="16" r="10" stroke="#3cb544" stroke-width="2"/>
+                <circle cx="16" cy="16" r="4" fill="#3cb544"/>
+                <circle cx="6" cy="16" r="2" fill="#fff"/><circle cx="26" cy="16" r="2" fill="#fff"/>
+                <circle cx="16" cy="6" r="2" fill="#fff"/><circle cx="16" cy="26" r="2" fill="#fff"/>
+              </svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-name">IRA Scientific</span>
+              <span class="logo-sub">Solution</span>
+            </div>
+          </a>
+          <p>Premier provider of cutting-edge laboratory instruments, bulk chemicals, and comprehensive lab setup solutions across India.</p>
+          <div class="footer-social">
+            <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:irascientific@gmail.com" class="social-btn"><i class="fas fa-envelope"></i></a>
+            <a href="tel:+918421939330" class="social-btn"><i class="fas fa-phone"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Our Services</a></li>
+            <li><a href="#industries">Industries</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Lab Instruments</a></li>
+            <li><a href="#services">Bulk Chemicals</a></li>
+            <li><a href="#services">Lab Setup</a></li>
+            <li><a href="#services">Analyzers</a></li>
+            <li><a href="#cleanroom">Clean Room</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+918421939330">+91-8421939330</a></li>
+            <li><a href="tel:+919146361239">+91-9146361239</a></li>
+            <li><a href="mailto:irascientific@gmail.com">irascientific@gmail.com</a></li>
+            <li><a href="#contact">Flat No: 06, Balaji Tower</a></li>
+            <li><a href="#contact">Chh.Sambhajinagar - 431001</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2024 <span>IRA Scientific Solution</span>. All Rights Reserved.</span>
+        <span>Designed with <span>♥</span> for Science &amp; Innovation</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCROLL TO TOP -->
+  <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.classList.add('scrolled');
+        scrollTopBtn.classList.add('show');
+      } else {
+        navbar.classList.remove('scrolled');
+        scrollTopBtn.classList.remove('show');
+      }
+    });
+
+    // Active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 100) current = section.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+      });
+    });
+
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    // Fade-in on scroll (IntersectionObserver)
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Contact form mock submit
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const btn = e.target;
+      btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+      btn.style.background = '#2a8c30';
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        btn.style.background = '';
+      }, 3000);
+    }
+
+    // Smooth close mobile menu on outside click
+    document.addEventListener('click', (e) => {
+      if (!navbar.contains(e.target)) mobileMenu.classList.remove('open');
+    });
+
+    // Brand logo loader — tries URLs then renders a styled SVG text logo
+    function tryLoadLogo(imgEl, urls, label, color, bgColor) {
+      if (!imgEl) return;
+      const fs = label.length > 12 ? 13 : label.length > 8 ? 15 : 18;
+      const svgFallback = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 56" width="140" height="50">
+        <rect width="160" height="56" rx="8" fill="${bgColor}"/>
+        <text x="80" y="36" font-family="Arial,sans-serif" font-size="${fs}" font-weight="800"
+              fill="${color}" text-anchor="middle" letter-spacing="0.5">${label}</text>
+      </svg>`;
+      let idx = 0;
+      function tryNext() {
+        if (idx >= urls.length) {
+          imgEl.parentNode.innerHTML = svgFallback;
+          return;
+        }
+        imgEl.onerror = function() { idx++; tryNext(); };
+        imgEl.src = urls[idx++];
+      }
+      tryNext();
+    }
+
+    // Team One Biotech — logo served from local file (teamone-logo.png)
+
+    // Horiba — official brand red #E60012 on white
+    tryLoadLogo(document.getElementById('horiba-logo'), [
+      'https://logo.clearbit.com/horiba.com',
+      'https://www.horiba.com/fileadmin/uploads/horiba/media/HORIBA_logo.png'
+    ], 'HORIBA', '#E60012', '#FFFFFF');
+
+    // REMI — brand blue
+    tryLoadLogo(document.getElementById('remi-logo'), [
+      'https://logo.clearbit.com/remilabworld.com',
+      'https://www.remilabworld.com/wp-content/uploads/2022/09/remi-logo.png'
+    ], 'REMI', '#003087', '#F0F4FF');
+
+    // Cole-Parmer — brand green
+    tryLoadLogo(document.getElementById('cole-logo'), [
+      'https://logo.clearbit.com/coleparmer.com',
+      'https://www.coleparmer.com/-/media/cole-parmer/web-images/logos/cole-parmer-logo.png'
+    ], 'Cole-Parmer', '#00703C', '#F0FFF6');
+
+    // Molecular Devices — brand blue
+    tryLoadLogo(document.getElementById('moldev-logo'), [
+      'https://logo.clearbit.com/moleculardevices.com',
+      'https://www.moleculardevices.com/-/media/molecular-devices/images/logo.png'
+    ], 'Molecular Devices', '#0066CC', '#F0F6FF');
+  </script>
+</body>
+</html>
