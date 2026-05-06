@@ -6,6 +6,7 @@
   <title>IRA Scientific Solution</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="icon" href="Logo.png.png" type="image/png" />
   <style>
     /* =========================================
        CSS RESET & BASE
@@ -158,13 +159,7 @@
     .navbar.scrolled { box-shadow: 0 4px 24px rgba(13,33,55,0.14); }
     .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 72px; }
     .nav-logo { display: flex; align-items: center; gap: 12px; }
-    .logo-icon {
-      width: 42px; height: 42px;
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .logo-icon svg { width: 26px; height: 26px; }
+    .logo-img { height: 42px; width: auto; object-fit: contain; }
     .logo-text { display: flex; flex-direction: column; }
     .logo-name { font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--navy); line-height: 1.1; }
     .logo-sub { font-size: 0.68rem; font-weight: 500; color: var(--green); letter-spacing: 1.5px; text-transform: uppercase; }
@@ -808,18 +803,7 @@
   <nav class="navbar" id="navbar">
     <div class="container">
       <a href="#home" class="nav-logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="10" stroke="#3cb544" stroke-width="2"/>
-            <circle cx="16" cy="16" r="4" fill="#3cb544"/>
-            <line x1="6" y1="16" x2="26" y2="16" stroke="#3cb544" stroke-width="1.5" stroke-dasharray="2 2"/>
-            <line x1="16" y1="6" x2="16" y2="26" stroke="#3cb544" stroke-width="1.5" stroke-dasharray="2 2"/>
-            <circle cx="6" cy="16" r="2" fill="#fff"/>
-            <circle cx="26" cy="16" r="2" fill="#fff"/>
-            <circle cx="16" cy="6" r="2" fill="#fff"/>
-            <circle cx="16" cy="26" r="2" fill="#fff"/>
-          </svg>
-        </div>
+        <img src="Logo.png.png" alt="IRA Scientific Solution" class="logo-img" />
         <div class="logo-text">
           <span class="logo-name">IRA Scientific</span>
           <span class="logo-sub">Solution</span>
@@ -1566,14 +1550,7 @@
       <div class="footer-main">
         <div class="footer-brand">
           <a href="#home" class="nav-logo" style="margin-bottom: 16px; display: inline-flex;">
-            <div class="logo-icon" style="width:38px;height:38px;">
-              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;">
-                <circle cx="16" cy="16" r="10" stroke="#3cb544" stroke-width="2"/>
-                <circle cx="16" cy="16" r="4" fill="#3cb544"/>
-                <circle cx="6" cy="16" r="2" fill="#fff"/><circle cx="26" cy="16" r="2" fill="#fff"/>
-                <circle cx="16" cy="6" r="2" fill="#fff"/><circle cx="16" cy="26" r="2" fill="#fff"/>
-              </svg>
-            </div>
+            <img src="Logo.png.png" alt="IRA Scientific Solution" class="logo-img" style="height:38px;" />
             <div class="logo-text">
               <span class="logo-name">IRA Scientific</span>
               <span class="logo-sub">Solution</span>
