@@ -1840,11 +1840,10 @@
 
     function closePromo() {
       document.getElementById('promoOverlay').classList.remove('active');
-      sessionStorage.setItem('promoSeen', '1');
     }
 
     (function initPromo() {
-      if (!PROMO.enabled || sessionStorage.getItem('promoSeen')) return;
+      if (!PROMO.enabled) return;
       document.getElementById('promoName').textContent    = PROMO.name;
       document.getElementById('promoOriginal').textContent = PROMO.originalPrice;
       document.getElementById('promoDisc').textContent    = PROMO.discountPct + '% OFF';
