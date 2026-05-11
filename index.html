@@ -386,18 +386,23 @@
     .vision .container { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
     .vision-image-wrap { position: relative; }
     .vision-img-bg {
-      background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
       border-radius: var(--radius-lg);
       overflow: hidden; aspect-ratio: 4/3;
-      display: flex; align-items: center; justify-content: center;
+      position: relative;
     }
-    .vision-img-bg img { width: 100%; height: 100%; object-fit: cover; }
-    .vision-img-placeholder {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 16px; color: var(--navy-light);
+    .vision-img-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .vision-img-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(13,33,55,0.88));
+      padding: 48px 28px 24px;
+      display: flex; align-items: center; gap: 12px;
+      color: var(--white);
     }
-    .vision-img-placeholder i { font-size: 4rem; color: var(--green); opacity: 0.5; }
-    .vision-img-placeholder p { font-size: 0.875rem; color: var(--gray-600); }
+    .vision-img-caption i { font-size: 1.6rem; color: var(--green); flex-shrink: 0; }
+    .vision-img-caption p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem; font-weight: 700; line-height: 1.3;
+    }
     .vision-accent {
       position: absolute; top: -16px; right: -16px;
       width: 80px; height: 80px;
@@ -532,6 +537,8 @@
       color: var(--gray-600); line-height: 1.3;
       padding-top: 4px; border-top: 1px solid var(--gray-200); width: 100%;
     }
+    .brands-head .section-sub { margin: 0 auto; }
+
     /* Allianz wide card */
     .allianz-card {
       grid-column: span 2;
@@ -599,7 +606,7 @@
     .cleanroom-head .section-title { color: var(--white); }
     .cleanroom-head .section-label { background: rgba(60,181,68,0.2); color: #7de87e; }
     .cleanroom-head .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto; }
-    .cleanroom-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+    .cleanroom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     .cleanroom-card {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.1);
@@ -772,6 +779,72 @@
       .footer-bottom { flex-direction: column; text-align: center; }
       .form-row { grid-template-columns: 1fr; }
     }
+    /* =========================================
+       PROMO POPUP
+    ========================================= */
+    .promo-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(13,33,55,0.72);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .promo-overlay.active { opacity: 1; pointer-events: all; }
+    .promo-modal {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 44px 40px 36px;
+      max-width: 420px; width: 100%;
+      position: relative;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      transform: scale(0.88) translateY(24px);
+      transition: transform 0.4s cubic-bezier(.18,.89,.32,1.28);
+    }
+    .promo-overlay.active .promo-modal { transform: scale(1) translateY(0); }
+    .promo-close {
+      position: absolute; top: 14px; right: 14px;
+      background: none; border: none; font-size: 1.4rem;
+      color: var(--gray-600); cursor: pointer;
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .promo-close:hover { background: var(--gray-100); color: var(--navy); }
+    .promo-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(60,181,68,0.12); color: var(--green-dark);
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 100px;
+      margin-bottom: 18px;
+    }
+    .promo-modal h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem; font-weight: 800;
+      color: var(--navy); margin-bottom: 20px; line-height: 1.3;
+    }
+    .promo-pricing {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-bottom: 8px;
+    }
+    .promo-original { font-size: 1rem; color: var(--gray-600); text-decoration: line-through; }
+    .promo-disc {
+      background: #fee2e2; color: #dc2626;
+      font-size: 0.8rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 100px;
+    }
+    .promo-final {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem; font-weight: 800;
+      color: var(--green); margin-bottom: 24px;
+    }
+    .promo-cta { width: 100%; justify-content: center; font-size: 1rem; }
+    @media (max-width: 480px) {
+      .promo-modal { padding: 36px 24px 28px; }
+      .promo-final { font-size: 1.8rem; }
+    }
+
     @media (max-width: 480px) {
       .values-grid { grid-template-columns: 1fr; }
       .industries-grid { grid-template-columns: 1fr 1fr; }
@@ -848,7 +921,7 @@
       <div class="hero-content fade-in">
         <div class="hero-badge">
           <span></span>
-          Premier Laboratory Solutions Provider
+          Premium Laboratory Solutions Provider
         </div>
         <h1>Advancing Science<br/>Through <em>Quality</em><br/>Lab Solutions</h1>
         <p>IRA Scientific Solutions delivers cutting-edge laboratory instruments, bulk chemicals, and comprehensive lab setup solutions — empowering industries and researchers across India.</p>
@@ -891,6 +964,8 @@
               <div class="hero-service-item"><i class="fas fa-check-circle"></i> Laboratory Setup &amp; Furniture</div>
               <div class="hero-service-item"><i class="fas fa-check-circle"></i> Clean Room &amp; HVAC Validation</div>
               <div class="hero-service-item"><i class="fas fa-check-circle"></i> All Types of Analyzers</div>
+              <div class="hero-service-item"><i class="fas fa-check-circle"></i> Automated &amp; Robotic Liquid Handlers</div>
+              <div class="hero-service-item"><i class="fas fa-check-circle"></i> Effective Wastewater Treatment Systems</div>
             </div>
             <div class="hero-badges">
               <div class="hero-badge">
@@ -1025,7 +1100,8 @@
     <div class="container">
       <div class="vision-image-wrap fade-in">
         <div class="vision-img-bg">
-          <div class="vision-img-placeholder">
+          <img src="AI-Robotic-Chemistry-Lab-Concept.jpg.jpeg" alt="AI-powered robotic laboratory — Global Leader in Laboratory Solutions" loading="lazy" />
+          <div class="vision-img-caption">
             <i class="fas fa-microscope"></i>
             <p>Global Leader in Laboratory Solutions</p>
           </div>
@@ -1114,6 +1190,8 @@
             <span class="tag">PCR Machines</span>
             <span class="tag">Spectrophotometers</span>
             <span class="tag">Filtration Units</span>
+            <span class="tag">Automated Liquid Handlers</span>
+            <span class="tag">Robotic Liquid Handlers</span>
           </div>
         </div>
         <div class="service-card fade-in stagger-2">
@@ -1235,13 +1313,24 @@
           <div class="brand-name-label">Cole-Parmer</div>
         </div>
 
-        <!-- Toshniwal -->
+        <!-- Toshniwal / TOSH India -->
         <div class="brand-card" style="cursor:default;">
           <div class="brand-logo-wrap">
-            <img src="https://logo.clearbit.com/toshniwal.net" alt="Toshniwal Technologies"
-                 onerror="this.src='https://toshniwal.net/_next/static/media/logo-4.c9559e43.png'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Toshniwal</div>'}" />
+            <img src="https://www.toshindia.com/cdn/shop/t/2/assets/logo.png?v=151783132337971219921643093241"
+                 alt="TOSH India" loading="lazy"
+                 onerror="this.src='https://logo.clearbit.com/toshindia.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>TOSH India</div>'}" />
           </div>
-          <div class="brand-name-label">Toshniwal Technologies</div>
+          <div class="brand-name-label">TOSH India</div>
+        </div>
+
+        <!-- Magnus Opto -->
+        <div class="brand-card" style="cursor:default;">
+          <div class="brand-logo-wrap">
+            <img src="https://www.magnusopto.com/pub/media/logo/stores/1/magnus.jpg"
+                 alt="Magnus Opto Systems" loading="lazy"
+                 onerror="this.src='https://logo.clearbit.com/magnusopto.com'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Magnus Opto</div>'}" />
+          </div>
+          <div class="brand-name-label">Magnus Opto Systems</div>
         </div>
 
         <!-- Supertek Glassware -->
@@ -1439,6 +1528,16 @@
           </div>
         </div>
         <div class="cleanroom-card">
+          <h3><i class="fas fa-tint"></i> Wastewater Treatment</h3>
+          <div class="cleanroom-list">
+            <div class="cleanroom-item">Effluent Treatment Plant (ETP) Solutions</div>
+            <div class="cleanroom-item">Advanced Bioremediation Systems</div>
+            <div class="cleanroom-item">Industrial Wastewater Management</div>
+            <div class="cleanroom-item">Biotechnology-based Treatment</div>
+            <div class="cleanroom-item">Sustainable ETP Design &amp; Setup</div>
+          </div>
+        </div>
+        <div class="cleanroom-card">
           <h3><i class="fas fa-cogs"></i> HVAC System Validation</h3>
           <p style="color: rgba(255,255,255,0.65); font-size: 0.85rem; margin-bottom: 16px;">Comprehensive HVAC validation test parameters:</p>
           <div class="hvac-grid">
@@ -1602,6 +1701,21 @@
     </div>
   </footer>
 
+  <!-- PROMO POPUP -->
+  <div id="promoOverlay" class="promo-overlay" role="dialog" aria-modal="true" aria-labelledby="promoName">
+    <div class="promo-modal">
+      <button class="promo-close" onclick="closePromo()" aria-label="Close">&times;</button>
+      <div class="promo-pill"><i class="fas fa-bolt"></i> Limited Offer</div>
+      <h3 id="promoName"></h3>
+      <div class="promo-pricing">
+        <span class="promo-original" id="promoOriginal"></span>
+        <span class="promo-disc" id="promoDisc"></span>
+      </div>
+      <div class="promo-final" id="promoFinal"></div>
+      <a href="#contact" class="btn btn-primary promo-cta" id="promoCta" onclick="closePromo()"></a>
+    </div>
+  </div>
+
   <!-- SCROLL TO TOP -->
   <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
     <i class="fas fa-arrow-up"></i>
@@ -1711,6 +1825,34 @@
       if (!navbar.contains(e.target)) mobileMenu.classList.remove('open');
     });
 
+    // ── Promo Popup ─────────────────────────────────────────────────────
+    // Edit PROMO to customize the popup. Set enabled:false to hide it.
+    const PROMO = {
+      enabled: true,
+      name: 'BOMB Calorimeter — Special Launch Price',
+      originalPrice: '₹1,20,000',
+      discountPct: 15,
+      finalPrice: '₹1,02,000',
+      cta: 'Get Best Price Today'
+    };
+
+    function closePromo() {
+      document.getElementById('promoOverlay').classList.remove('active');
+      sessionStorage.setItem('promoSeen', '1');
+    }
+
+    (function initPromo() {
+      if (!PROMO.enabled || sessionStorage.getItem('promoSeen')) return;
+      document.getElementById('promoName').textContent    = PROMO.name;
+      document.getElementById('promoOriginal').textContent = PROMO.originalPrice;
+      document.getElementById('promoDisc').textContent    = PROMO.discountPct + '% OFF';
+      document.getElementById('promoFinal').textContent   = PROMO.finalPrice;
+      document.getElementById('promoCta').textContent     = PROMO.cta;
+      const overlay = document.getElementById('promoOverlay');
+      setTimeout(() => overlay.classList.add('active'), 1800);
+      overlay.addEventListener('click', e => { if (e.target === overlay) closePromo(); });
+    })();
+
     // Brand logo loader — tries URLs then renders a styled SVG text logo
     function tryLoadLogo(imgEl, urls, label, color, bgColor) {
       if (!imgEl) return;
@@ -1743,13 +1885,15 @@
     // REMI — brand blue
     tryLoadLogo(document.getElementById('remi-logo'), [
       'https://logo.clearbit.com/remilabworld.com',
-      'https://www.remilabworld.com/wp-content/uploads/2022/09/remi-logo.png'
+      'https://www.remilabworld.com/wp-content/uploads/remi-logo.png',
+      'https://www.remilabworld.com/wp-content/uploads/2023/01/remi-logo.png'
     ], 'REMI', '#003087', '#F0F4FF');
 
-    // Cole-Parmer — brand green
+    // Cole-Parmer India — brand green
     tryLoadLogo(document.getElementById('cole-logo'), [
+      'https://logo.clearbit.com/coleparmer.in',
       'https://logo.clearbit.com/coleparmer.com',
-      'https://www.coleparmer.com/-/media/cole-parmer/web-images/logos/cole-parmer-logo.png'
+      'https://www.coleparmer.in/content/dam/cole-parmer/core/images/logos/cole-parmer-logo.png'
     ], 'Cole-Parmer', '#00703C', '#F0FFF6');
 
     // Molecular Devices — brand blue
