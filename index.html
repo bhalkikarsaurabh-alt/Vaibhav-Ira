@@ -1339,7 +1339,12 @@
         <!-- REMI Lab World -->
         <div class="brand-card" style="cursor:default;">
           <div class="brand-logo-wrap">
-            <img id="remi-logo" alt="REMI Lab World" />
+            <svg viewBox="0 0 160 56" xmlns="http://www.w3.org/2000/svg" style="max-height:50px;width:auto;">
+              <rect width="160" height="56" rx="8" fill="#ffffff"/>
+              <rect x="0" y="0" width="8" height="56" rx="4" fill="#CC0000"/>
+              <text x="88" y="26" font-family="Arial Black,Arial,sans-serif" font-size="24" font-weight="900" fill="#CC0000" text-anchor="middle" letter-spacing="5">REMI</text>
+              <text x="88" y="44" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#003087" text-anchor="middle" letter-spacing="2.5">LAB WORLD</text>
+            </svg>
           </div>
           <div class="brand-name-label">REMI Lab World</div>
         </div>
@@ -1438,9 +1443,15 @@
         <!-- Allianz BioInnovation — wide card -->
         <div class="brand-card allianz-card" style="cursor:default;">
           <div class="brand-logo-wrap">
-            <img src="https://logo.clearbit.com/allianzbio.com"
-                 alt="Allianz BioInnovation" loading="lazy"
-                 onerror="this.src='allianz-logo.jpg'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Allianz Bio</div>'}" />
+            <svg viewBox="0 0 200 56" xmlns="http://www.w3.org/2000/svg" style="max-height:50px;width:auto;">
+              <rect width="200" height="56" rx="8" fill="#ffffff"/>
+              <!-- Green leaf icon -->
+              <circle cx="28" cy="28" r="18" fill="#e8f5e9"/>
+              <text x="28" y="34" font-family="Arial,sans-serif" font-size="18" fill="#2E7D32" text-anchor="middle">🌿</text>
+              <!-- Brand name -->
+              <text x="118" y="24" font-family="Arial Black,Arial,sans-serif" font-size="16" font-weight="900" fill="#1B5E20" text-anchor="middle" letter-spacing="1">ALLIANZ</text>
+              <text x="118" y="42" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#388E3C" text-anchor="middle" letter-spacing="2">BIOINNOVATION</text>
+            </svg>
           </div>
           <div class="brand-name-label">Allianz BioInnovation</div>
         </div>
@@ -2002,13 +2013,6 @@
       'https://static.horiba.com/typo3conf/ext/hor_layout/Resources/Public/img/logo.svg',
       'https://logo.clearbit.com/horiba.com'
     ], 'HORIBA', '#E60012', '#FFFFFF');
-
-    // REMI — brand blue
-    tryLoadLogo(document.getElementById('remi-logo'), [
-      'https://logo.clearbit.com/remilabworld.com',
-      'https://www.remilabworld.com/wp-content/uploads/remi-logo.png',
-      'https://www.remilabworld.com/wp-content/uploads/2023/01/remi-logo.png'
-    ], 'REMI', '#003087', '#F0F4FF');
 
     // Cole-Parmer India — brand green
     tryLoadLogo(document.getElementById('cole-logo'), [
