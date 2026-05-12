@@ -782,6 +782,53 @@
       .form-row { grid-template-columns: 1fr; }
     }
     /* =========================================
+       OFFER ZONE
+    ========================================= */
+    .offerzone { background: var(--navy); position: relative; overflow: hidden; }
+    .offerzone::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 60%, rgba(60,181,68,0.18) 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 20%, rgba(30,74,115,0.4) 0%, transparent 50%);
+    }
+    .offerzone .container { position: relative; z-index: 1; }
+    .offerzone-head { text-align: center; margin-bottom: 48px; }
+    .offerzone-head .section-title { color: var(--white); }
+    .offerzone-head .section-label { background: rgba(60,181,68,0.2); color: #7de87e; }
+    .offerzone-head .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto; }
+    .offerzone-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+    .offer-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      transition: var(--transition);
+    }
+    .offer-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(60,181,68,0.5); transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .offer-disc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green); color: var(--white);
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 20px;
+    }
+    .offer-card h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--white); margin-bottom: 22px; line-height: 1.3;
+    }
+    .offer-original { font-size: 0.95rem; color: rgba(255,255,255,0.45); text-decoration: line-through; margin-bottom: 6px; }
+    .offer-final {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.6rem; font-weight: 800;
+      color: var(--green); line-height: 1; margin-bottom: 20px;
+    }
+    .offer-warranty {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(60,181,68,0.15); border: 1px solid rgba(60,181,68,0.3);
+      color: #7de87e; font-size: 0.82rem; font-weight: 600;
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
+    }
+
+    /* =========================================
        PROMO POPUP
     ========================================= */
     .promo-overlay {
@@ -1344,14 +1391,6 @@
           <div class="brand-name-label">Supertek Glassware</div>
         </div>
 
-        <!-- Molecular Devices -->
-        <div class="brand-card" style="cursor:default;">
-          <div class="brand-logo-wrap">
-            <img id="moldev-logo" alt="Molecular Devices" />
-          </div>
-          <div class="brand-name-label">Molecular Devices, USA</div>
-        </div>
-
         <!-- Provisco -->
         <div class="brand-card" style="cursor:default;">
           <div class="brand-logo-wrap">
@@ -1391,9 +1430,9 @@
         <!-- Allianz BioInnovation — wide card -->
         <div class="brand-card allianz-card" style="cursor:default;">
           <div class="brand-logo-wrap">
-            <img src="allianz-logo.jpg"
-                 alt="Allianz BioInnovation"
-                 onerror="this.src='https://alliaancebiotech.com/wp-content/themes/alliance-new/images/logo_new.jpg'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Allianz Bio</div>'}" />
+            <img src="https://logo.clearbit.com/allianzbio.com"
+                 alt="Allianz BioInnovation" loading="lazy"
+                 onerror="this.src='allianz-logo.jpg'; this.onerror=function(){this.parentNode.innerHTML='<div class=\'brand-text-logo\'>Allianz Bio</div>'}" />
           </div>
           <div class="brand-name-label">Allianz BioInnovation</div>
         </div>
@@ -1483,6 +1522,34 @@
             <p>Accurate heat of combustion measurement</p>
           </div>
         </div>
+        <div class="product-card">
+          <div class="product-icon">🧤</div>
+          <div>
+            <h4>SS Glove Box</h4>
+            <p>Stainless steel glove box for controlled atmosphere handling</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🛡️</div>
+          <div>
+            <h4>Isolators</h4>
+            <p>Pharmaceutical-grade isolators for aseptic processing</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🧪</div>
+          <div>
+            <h4>Powder Charging Glove Box</h4>
+            <p>High moisture sensitive powder charging under inert atmosphere</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🔩</div>
+          <div>
+            <h4>SS Pressure Vessels</h4>
+            <p>Stainless steel pressure vessels for high-pressure lab applications</p>
+          </div>
+        </div>
       </div>
       <div class="warranty-banner fade-in">
         <div>
@@ -1494,6 +1561,18 @@
           <div class="lbl">YEAR<br/>WARRANTY</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- OFFER ZONE -->
+  <section class="offerzone section" id="offerzone">
+    <div class="container">
+      <div class="offerzone-head fade-in">
+        <span class="section-label">Limited Time Deals</span>
+        <h2 class="section-title">Offer <span>Zone</span></h2>
+        <p class="section-sub">Special pricing on premium laboratory equipment — limited stock available.</p>
+      </div>
+      <div class="offerzone-grid fade-in" id="offerCards"></div>
     </div>
   </section>
 
@@ -1827,6 +1906,39 @@
       if (!navbar.contains(e.target)) mobileMenu.classList.remove('open');
     });
 
+    // ── Offer Zone ───────────────────────────────────────────────────────
+    // Edit OFFERS array to add/update deals. Price in INR (numbers only).
+    const OFFERS = [
+      {
+        product: '1 Ton Laboratory Chiller',
+        originalPrice: 150000,
+        discountPct: 20,
+        warrantyYrs: 2,
+        icon: 'fas fa-snowflake',
+        cta: 'Enquire Now'
+      }
+    ];
+
+    (function renderOffers() {
+      const grid = document.getElementById('offerCards');
+      if (!grid) return;
+      const fmt = n => '₹' + n.toLocaleString('en-IN');
+      OFFERS.forEach(o => {
+        const finalPrice = Math.round(o.originalPrice * (1 - o.discountPct / 100));
+        const card = document.createElement('div');
+        card.className = 'offer-card';
+        card.innerHTML = `
+          <div class="offer-disc-badge"><i class="${o.icon}"></i> ${o.discountPct}% OFF</div>
+          <h3>${o.product}</h3>
+          <div class="offer-original">${fmt(o.originalPrice)}</div>
+          <div class="offer-final">${fmt(finalPrice)}</div>
+          <div class="offer-warranty"><i class="fas fa-shield-alt"></i> ${o.warrantyYrs} Year Warranty Included</div>
+          <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> ${o.cta}</a>
+        `;
+        grid.appendChild(card);
+      });
+    })();
+
     // ── Promo Popup ─────────────────────────────────────────────────────
     // Edit PROMO to customize the popup. Set enabled:false to hide it.
     const PROMO = {
@@ -1877,10 +1989,10 @@
 
     // Team One Biotech — logo served from local file (teamone-logo.png)
 
-    // Horiba — official brand red #E60012 on white
+    // Horiba — official SVG from horiba.com
     tryLoadLogo(document.getElementById('horiba-logo'), [
-      'https://logo.clearbit.com/horiba.com',
-      'https://www.horiba.com/fileadmin/uploads/horiba/media/HORIBA_logo.png'
+      'https://static.horiba.com/typo3conf/ext/hor_layout/Resources/Public/img/logo.svg',
+      'https://logo.clearbit.com/horiba.com'
     ], 'HORIBA', '#E60012', '#FFFFFF');
 
     // REMI — brand blue
@@ -1893,15 +2005,8 @@
     // Cole-Parmer India — brand green
     tryLoadLogo(document.getElementById('cole-logo'), [
       'https://logo.clearbit.com/coleparmer.in',
-      'https://logo.clearbit.com/coleparmer.com',
-      'https://www.coleparmer.in/content/dam/cole-parmer/core/images/logos/cole-parmer-logo.png'
+      'https://logo.clearbit.com/coleparmer.com'
     ], 'Cole-Parmer', '#00703C', '#F0FFF6');
-
-    // Molecular Devices — brand blue
-    tryLoadLogo(document.getElementById('moldev-logo'), [
-      'https://logo.clearbit.com/moleculardevices.com',
-      'https://www.moleculardevices.com/-/media/molecular-devices/images/logo.png'
-    ], 'Molecular Devices', '#0066CC', '#F0F6FF');
   </script>
 </body>
 </html>
