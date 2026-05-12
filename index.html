@@ -804,6 +804,8 @@
     .offerzone-head .section-label { background: rgba(60,181,68,0.2); color: #7de87e; }
     .offerzone-head .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto; }
     .offerzone-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+    .offerzone-footer { text-align: center; margin-top: 48px; }
+    .offerzone-footer .btn { padding: 14px 44px; font-size: 1rem; }
     .offer-card {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.12);
@@ -1558,8 +1560,8 @@
         <div class="product-card">
           <div class="product-icon">🧪</div>
           <div>
-            <h4>Powder Charging Glove Box</h4>
-            <p>High moisture sensitive powder charging under inert atmosphere</p>
+            <h4>High Moisture Sensitive Powder Charging Glove Box</h4>
+            <p>Inert atmosphere glove box for high moisture sensitive powder charging</p>
           </div>
         </div>
         <div class="product-card">
@@ -1583,15 +1585,20 @@
     </div>
   </section>
 
-  <!-- OFFER ZONE -->
+  <!-- LIMITED OFFERS -->
   <section class="offerzone section" id="offerzone">
     <div class="container">
       <div class="offerzone-head fade-in">
         <span class="section-label">Limited Time Deals</span>
-        <h2 class="section-title">Offer <span>Zone</span></h2>
-        <p class="section-sub">Special pricing on premium laboratory equipment — limited stock available.</p>
+        <h2 class="section-title">Limited <span>Offers</span></h2>
+        <p class="section-sub">Exclusive pricing on premium laboratory equipment — limited stock available.</p>
       </div>
       <div class="offerzone-grid fade-in" id="offerCards"></div>
+      <div class="offerzone-footer fade-in">
+        <a href="offers.html" class="btn btn-primary">
+          <i class="fas fa-tags"></i> View All Offers
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1821,6 +1828,7 @@
     <i class="fas fa-arrow-up"></i>
   </button>
 
+  <script src="offers-data.js"></script>
   <script>
     // Navbar scroll effect
     const navbar = document.getElementById('navbar');
@@ -1925,37 +1933,11 @@
       if (!navbar.contains(e.target)) mobileMenu.classList.remove('open');
     });
 
-    // ── Offer Zone ───────────────────────────────────────────────────────
-    // Edit OFFERS array to add/update deals. Price in INR (numbers only).
-    const OFFERS = [
-      {
-        product: '1 Ton Laboratory Chiller',
-        originalPrice: 150000,
-        discountPct: 20,
-        warrantyYrs: 2,
-        icon: 'fas fa-snowflake',
-        cta: 'Enquire Now'
-      }
-    ];
-
-    (function renderOffers() {
-      const grid = document.getElementById('offerCards');
-      if (!grid) return;
-      const fmt = n => '₹' + n.toLocaleString('en-IN');
-      OFFERS.forEach(o => {
-        const finalPrice = Math.round(o.originalPrice * (1 - o.discountPct / 100));
-        const card = document.createElement('div');
-        card.className = 'offer-card';
-        card.innerHTML = `
-          <div class="offer-disc-badge"><i class="${o.icon}"></i> ${o.discountPct}% OFF</div>
-          <h3>${o.product}</h3>
-          <div class="offer-original">${fmt(o.originalPrice)}</div>
-          <div class="offer-final">${fmt(finalPrice)}</div>
-          <div class="offer-warranty"><i class="fas fa-shield-alt"></i> ${o.warrantyYrs} Year Warranty Included</div>
-          <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> ${o.cta}</a>
-        `;
-        grid.appendChild(card);
-      });
+    // ── Limited Offers — data from offers-data.js ────────────────────────
+    (function() {
+      const g = document.getElementById('offerCards');
+      if (!g || typeof OFFERS_DATA === 'undefined') return;
+      OFFERS_DATA.forEach(o => g.insertAdjacentHTML('beforeend', buildOfferCard(o)));
     })();
 
     // ── Promo Popup ─────────────────────────────────────────────────────
