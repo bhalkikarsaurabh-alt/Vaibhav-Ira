@@ -1613,23 +1613,6 @@
     </div>
   </section>
 
-  <!-- LIMITED OFFERS -->
-  <section class="offerzone section" id="offerzone">
-    <div class="container">
-      <div class="offerzone-head fade-in">
-        <span class="section-label">Limited Time Deals</span>
-        <h2 class="section-title">Limited <span>Offers</span></h2>
-        <p class="section-sub">Exclusive pricing on premium laboratory equipment — limited stock available.</p>
-      </div>
-      <div class="offerzone-grid fade-in" id="offerCards"></div>
-      <div class="offerzone-footer fade-in">
-        <a href="offers.html" class="btn btn-primary">
-          <i class="fas fa-tags"></i> View All Offers
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- CLEAN ROOM -->
   <section class="cleanroom section" id="cleanroom">
     <div class="container">
@@ -1961,12 +1944,7 @@
       if (!navbar.contains(e.target)) mobileMenu.classList.remove('open');
     });
 
-    // ── Limited Offers — data from offers-data.js ────────────────────────
-    (function() {
-      const g = document.getElementById('offerCards');
-      if (!g || typeof OFFERS_DATA === 'undefined') return;
-      OFFERS_DATA.forEach(o => g.insertAdjacentHTML('beforeend', buildOfferCard(o)));
-    })();
+
 
     // ── Promo Popup ─────────────────────────────────────────────────────
     // Edit PROMO to customize the popup. Set enabled:false to hide it.
