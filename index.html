@@ -234,44 +234,28 @@
     .hero-visual { position: relative; }
     .hero-card-wrap { position: relative; margin-left: 24px; display: flex; flex-direction: column; gap: 16px; }
 
-    /* Limited Time Deals teaser in hero */
+    /* Limited Time Deals banner in hero */
     .hero-deals-teaser {
+      display: flex; align-items: center; justify-content: space-between;
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(60,181,68,0.35);
       backdrop-filter: blur(20px);
       border-radius: var(--radius-lg);
-      padding: 20px 24px;
+      padding: 16px 24px;
+      text-decoration: none; color: inherit;
+      transition: var(--transition); cursor: pointer;
     }
-    .hero-deals-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 14px;
-    }
+    .hero-deals-teaser:hover { background: rgba(60,181,68,0.14); border-color: rgba(60,181,68,0.6); transform: translateY(-2px); }
     .hero-deals-title {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 0.82rem; font-weight: 700; color: #7de87e; letter-spacing: 0.5px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.88rem; font-weight: 700; color: #7de87e; letter-spacing: 0.5px;
     }
-    .hero-deals-title i { color: var(--green); font-size: 0.9rem; }
+    .hero-deals-title i { color: var(--green); font-size: 1rem; }
     .hero-deals-link {
       font-size: 0.78rem; font-weight: 600; color: var(--green);
-      display: flex; align-items: center; gap: 5px; transition: var(--transition);
+      display: flex; align-items: center; gap: 6px; transition: var(--transition);
     }
-    .hero-deals-link:hover { color: var(--green-light); gap: 8px; }
-    .hero-deals-list { display: flex; flex-direction: column; gap: 8px; }
-    .hero-deal-item {
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,0.06); border-radius: 8px;
-      padding: 10px 14px; cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: var(--transition);
-      text-decoration: none; color: inherit;
-    }
-    .hero-deal-item:hover { background: rgba(60,181,68,0.12); border-color: rgba(60,181,68,0.35); transform: translateX(3px); }
-    .hero-deal-info { display: flex; align-items: center; gap: 8px; }
-    .hero-deal-icon { color: var(--green); font-size: 0.85rem; width: 16px; text-align: center; }
-    .hero-deal-name { font-size: 0.82rem; font-weight: 600; color: var(--white); }
-    .hero-deal-meta { display: flex; align-items: center; gap: 8px; }
-    .hero-deal-badge { background: var(--green); color: white; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 100px; white-space: nowrap; }
-    .hero-deal-price { font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #7de87e; white-space: nowrap; }
+    .hero-deals-teaser:hover .hero-deals-link { gap: 10px; }
     .hero-main-card {
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.15);
@@ -1052,14 +1036,11 @@
       </div>
       <div class="hero-visual fade-in stagger-2">
         <div class="hero-card-wrap">
-          <!-- Limited Time Deals teaser -->
-          <div class="hero-deals-teaser">
-            <div class="hero-deals-header">
-              <div class="hero-deals-title"><i class="fas fa-tags"></i> Limited Time Deals</div>
-              <a href="offers.html" class="hero-deals-link">View All <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="hero-deals-list" id="heroDeals"></div>
-          </div>
+          <!-- Limited Time Deals banner -->
+          <a href="offers.html" class="hero-deals-teaser">
+            <div class="hero-deals-title"><i class="fas fa-tags"></i> Limited Time Deals</div>
+            <div class="hero-deals-link">View Offers <i class="fas fa-arrow-right"></i></div>
+          </a>
           <div class="hero-main-card">
             <div class="hero-card-icon"><i class="fas fa-microscope"></i></div>
             <h3>Complete Lab Ecosystem</h3>
@@ -1979,27 +1960,6 @@
     document.addEventListener('click', (e) => {
       if (!navbar.contains(e.target)) mobileMenu.classList.remove('open');
     });
-
-    // ── Hero Deals Teaser ────────────────────────────────────────────────
-    (function() {
-      const list = document.getElementById('heroDeals');
-      if (!list || typeof OFFERS_DATA === 'undefined') return;
-      const fmt = n => '₹' + n.toLocaleString('en-IN');
-      OFFERS_DATA.forEach(o => {
-        const final = (o.finalPrice != null) ? o.finalPrice : Math.round(o.originalPrice * (1 - o.discountPct / 100));
-        list.insertAdjacentHTML('beforeend', `
-          <a href="offers.html" class="hero-deal-item">
-            <span class="hero-deal-info">
-              <i class="${o.icon} hero-deal-icon"></i>
-              <span class="hero-deal-name">${o.product}</span>
-            </span>
-            <span class="hero-deal-meta">
-              <span class="hero-deal-badge">${o.discountPct}% OFF</span>
-              <span class="hero-deal-price">${fmt(final)}</span>
-            </span>
-          </a>`);
-      });
-    })();
 
     // ── Limited Offers — data from offers-data.js ────────────────────────
     (function() {
